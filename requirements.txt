@@ -1,0 +1,4 @@
+# Core project: Python 3.9+ standard library only (no install needed).
+# Optional extras:
+matplotlib>=3.5      # for `analyze plots` (graphs for your report)
+cryptography>=41     # optional: cross-checks my AES against a trusted library in tests

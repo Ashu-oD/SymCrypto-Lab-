@@ -1,0 +1,52 @@
+=== 1. Test vectors (FIPS-197, RFC 8439, Speck) ===
+----------------------------------------------------------------------
+Ran 11 tests in 7.943s
+
+OK (skipped=1)
+
+=== 2. S-box analysis ===
+AES      {"size": 256, "differential_uniformity": 4, "max_diff_prob": 0.015625, "max_abs_LAT": 16, "nonlinearity": 112, "max_linear_bias": 0.0625, "is_bijective": true, "bits": 8}
+PRESENT  {"size": 16, "differential_uniformity": 4, "max_diff_prob": 0.25, "max_abs_LAT": 4, "nonlinearity": 4, "max_linear_bias": 0.25, "is_bijective": true, "bits": 4}
+
+=== 3. Avalanche / diffusion ===
+AES-128        mean=0.5004 min=0.4750 max=0.5203  (ideal 0.5)
+Speck128/128   mean=0.5011 min=0.4824 max=0.5273  (ideal 0.5)
+ChaCha key-bit avalanche by rounds:
+   2 rounds -> 0.3415
+   4 rounds -> 0.4965
+   6 rounds -> 0.5006
+   8 rounds -> 0.5011
+  12 rounds -> 0.5012
+  20 rounds -> 0.5006
+
+=== 4. ECB vs CTR pattern leakage ===
+{'ecb_repeated_blocks': 31, 'ctr_repeated_blocks': 0}
+
+=== 5. Keystream randomness ===
+ChaCha20 keystream 256KiB: chi2=219.0 (expect ~255), monobit p=0.159 (>0.01 ok)
+Biased sample (control)   : chi2=9324836.6, monobit p=0.000
+
+=== 6. Differential attack (toy SPN) ===
+[*] Differential attack on 4-round toy SPN (seed=7)
+  characteristic: 0x0007 -> 0x0033  prob ~ 2^-8.0
+  pairs: 3072 generated, 47 kept after filtering
+  last-round key nibble 0: recovered 3  true 3
+  last-round key nibble 1: recovered a  true a
+  RESULT: KEY BITS RECOVERED
+
+=== 7. Benchmark ===
+Cipher               KiB/s (pure Python, 32 KiB)
+AES-128-CTR               310.4
+AES-256-CTR               224.3
+Speck128/128-CTR         1197.1
+ChaCha20                  700.3
+
+=== 8. Plots ===
+Matplotlib is building the font cache; this may take a moment.
+[+] saved results/ddt_present.png
+[+] saved results/chacha_avalanche.png
+
+=== 9. File encryption round-trip ===
+[+] encrypted results/demo.txt -> results/demo.txt.syml (aes-ctr, PBKDF2 + HMAC-SHA256)
+[+] decrypted -> results/demo.out.txt
+round-trip OK
